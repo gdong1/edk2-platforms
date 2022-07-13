@@ -1,0 +1,60 @@
+## @file
+# Payload platform Package
+#
+# Provides coreboot specific drivers and definitions to create a platform FV
+# to work with UefiPayloadPlg and universal Payload.
+#
+# Copyright (c) 2022, StarLabs. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+DEFINE FD_BASE       = 0x00800000
+DEFINE FD_BLOCK_SIZE = 0x00001000
+
+!if $(TARGET) == "NOOPT"
+DEFINE FD_SIZE     = 0x00090000
+DEFINE NUM_BLOCKS  = 0x90
+!else
+
+DEFINE FD_SIZE     = 0x00050000
+DEFINE NUM_BLOCKS  = 0x50
+!endif
+
+################################################################################
+[FD.UefiPayload]
+BaseAddress   = $(FD_BASE) | gUefiPayloadPkgTokenSpaceGuid.PcdPayloadFdMemBase
+Size          = $(FD_SIZE) | gUefiPayloadPkgTokenSpaceGuid.PcdPayloadFdMemSize
+ErasePolarity = 1
+BlockSize     = $(FD_BLOCK_SIZE)
+NumBlocks     = $(NUM_BLOCKS)
+
+0x00000000|$(FD_SIZE)
+FV = PLATFORMFV
+
+################################################################################
+[FV.PLATFORMFV]
+FvNameGuid         = 927bf473-013c-413d-bd06-340091aa7c5f
+BlockSize          = $(FD_BLOCK_SIZE)
+FvForceRebase      = FALSE
+FvAlignment        = 16
+ERASE_POLARITY     = 1
+MEMORY_MAPPED      = TRUE
+STICKY_WRITE       = TRUE
+LOCK_CAP           = TRUE
+LOCK_STATUS        = TRUE
+WRITE_DISABLED_CAP = TRUE
+WRITE_ENABLED_CAP  = TRUE
+WRITE_STATUS       = TRUE
+WRITE_LOCK_CAP     = TRUE
+WRITE_LOCK_STATUS  = TRUE
+READ_DISABLED_CAP  = TRUE
+READ_ENABLED_CAP   = TRUE
+READ_STATUS        = TRUE
+READ_LOCK_CAP      = TRUE
+READ_LOCK_STATUS   = TRUE
+
+INF UefiPayloadPkg/SmmStoreFvb/SmmStoreFvbRuntimeDxe.inf
+INF MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
+INF MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf

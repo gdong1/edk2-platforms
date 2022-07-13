@@ -1,0 +1,19 @@
+## @file
+# coreboot Package
+#
+# Provides drivers and definitions to create payload platform FV.
+#
+# Copyright (c) 2022, StarLabs. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = PayloadPlatformPkg
+  PACKAGE_GUID                   = 554f7c44-2210-43c6-8176-1481710b6478
+  PACKAGE_VERSION                = 0.1
+
+[Guids]
+  gEfiSmmStoreInfoHobGuid  = { 0xf585ca19, 0x881b, 0x44fb, { 0x3f, 0x3d, 0x81, 0x89, 0x7c, 0x57, 0xbb, 0x01 } }
+
